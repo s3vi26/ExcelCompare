@@ -1,13 +1,16 @@
 import Head from 'next/head';
 import { useState } from 'react';
+import FileUploader from './fileUploader';
 import styles from '../styles/Home.module.css';
 
 export default function Home() {
   const [initialFile, setIntialFile] = useState('');
   const [validateFile, setValidateFile] = useState('');
 
-  const fileChange = (e) => {
-    console.log(e);
+  const submit = (e) => {
+    e.preventDefault();
+    console.log(initialFile);
+    console.log(validateFile);
   }
 
   return (
@@ -22,9 +25,15 @@ export default function Home() {
           Compare Excel Sheets
         </h1>
         <div className={styles.grid}>
-          <input value={initialFile} onChange={fileChange} type="file" accept="application/excel"/>
-          <input value={validateFile} onChange={fileChange} type="file" accept="application/excel"/>
-          <button onClick={} />
+          <form>
+            <FileUploader
+              onFileSelectSuccess={(file) => setIntialFile(file)}
+            />
+            <FileUploader
+              onFileSelectSuccess={(file) => setValidateFile(file)}
+            />
+            <button onClick={submit}>Compare</button>
+          </form>
         </div>
       </main>
 

@@ -1,0 +1,25 @@
+{
+  "name": "excelcompare",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "exceljs": "4.2.0",
+    "express": "4.17.1",
+    "serverless-http": "2.6.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/s3vi26/ExcelCompare.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/s3vi26/ExcelCompare/issues"
+  },
+  "homepage": "https://github.com/s3vi26/ExcelCompare#readme"
+}
