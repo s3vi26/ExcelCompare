@@ -1,17 +1,48 @@
 import Head from 'next/head';
 import { useState } from 'react';
-import FileUploader from './fileUploader';
 import styles from '../styles/Home.module.css';
+import axios from 'axios';
 
 export default function Home() {
-  const [initialFile, setIntialFile] = useState('');
-  const [validateFile, setValidateFile] = useState('');
+  const [fileA, setFileA] = useState('');
+  const [fileB, setFileB] = useState('');
+  const [fileAname, setFileAname] = useState('');
+  const [fileBname, setFileBname] = useState('');
+
+  const handleFileAInput = (e) => {
+    // handle validations
+    const file = e.target.files[0];
+    if (file) {
+      console.log(file);
+      console.log(file.name);
+      setFileA(file)
+      setFileAname(file.name);
+    } else 'No file selected'
+  };
+
+  const handleFileBInput = (e) => {
+    // handle validations
+    const file = e.target.files[0];
+    if (file) {
+      console.log(file);
+      console.log(file.name);
+      setFileB(file);
+      setFileBname(file.name);
+    } else 'No file selected'
+  };
 
   const submit = (e) => {
     e.preventDefault();
-    console.log(initialFile);
-    console.log(validateFile);
-  }
+    const res = axios({
+      method: 'POST',
+      url:'http://localhost:5000/upload',
+      files: {
+        fileA,
+        fileB
+      }
+    })
+    console.log(res);
+  };
 
   return (
     <div className={styles.container}>
@@ -25,13 +56,9 @@ export default function Home() {
           Compare Excel Sheets
         </h1>
         <div className={styles.grid}>
-          <form>
-            <FileUploader
-              onFileSelectSuccess={(file) => setIntialFile(file)}
-            />
-            <FileUploader
-              onFileSelectSuccess={(file) => setValidateFile(file)}
-            />
+          <form encType='multipart/form-data'>
+            <input type="file" onChange={handleFileAInput} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
+            <input type="file" onChange={handleFileBInput} accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"/>
             <button onClick={submit}>Compare</button>
           </form>
         </div>

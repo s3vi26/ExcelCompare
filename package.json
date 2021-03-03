@@ -3,8 +3,7 @@
   "version": "1.0.0",
   "description": "",
   "main": "app.py",
-  "dependencies": {
-  },
+  "dependencies": {},
   "devDependencies": {
     "serverless-python-requirements": "^5.1.0",
     "serverless-wsgi": "^1.7.6"
