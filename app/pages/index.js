@@ -33,13 +33,17 @@ export default function Home() {
 
   const submit = (e) => {
     e.preventDefault();
+    const data = new FormData();
+    // the string value is the backend key in key/value pair
+    // fileA will be original file
+    data.append('fileA', fileA);
+    // fileB will be comparing file
+    data.append('fileB', fileB);
+
     const res = axios({
       method: 'POST',
       url:'http://localhost:5000/upload',
-      files: {
-        fileA,
-        fileB
-      }
+      data
     })
     console.log(res);
   };
