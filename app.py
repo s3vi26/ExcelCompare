@@ -1,13 +1,14 @@
 import os
 from flask import Flask, request
 from werkzeug.utils import secure_filename
+from openpyxl import load_workbook
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
 logger = logging.getLogger('HELLO WORLD')
 
-UPLOAD_FOLDER = '/Users/Sevi/Downloads'
+UPLOAD_FOLDER = '/Users/Sevi/code/ExcelCompare'
 ALLOWED_EXTENSIONS = set(['xlsx'])
 
 app = Flask(__name__)
@@ -32,27 +33,43 @@ def uploading():
       os.mkdir(target)
     
     fileA = request.files['fileA']
-    # read the file
-    # parse them to JSON
+    # To save file to a destination
+    filename = secure_filename(fileA.filename)
+    destination="/".join([target, filename])
+    fileA.save(destination)
+    workbookA = load_workbook(filename=f'backend_docs/{filename}')
+    print(workbookA.sheetnames)
+    sheetA = workbookA.active
+    print(sheetA)
+    my_listA = []
+    for row in sheetA.iter_rows(min_row=1, min_col=1, values_only=True):
+      filteredA = filter(None, row)
+      for value in filteredA:
+        my_listA.append(value)
 
+    print(my_listA)
+    
     fileB = request.files['fileB']
-    # read the file
-    # parse them to JSON
+    # To save file to a destination
+    filename = secure_filename(fileB.filename)
+    destination="/".join([target, filename])
+    fileB.save(destination)
+
+    workbookB = load_workbook(filename=f'backend_docs/{filename}')
+    print(workbookB.sheetnames)
+    sheetB = workbookB.active
+    print(sheetB)
+    my_listB = []
+    for row in sheetB.iter_rows(min_row=1, min_col=1, values_only=True):
+      filteredB = filter(None, row)
+      for value in filteredB:
+        my_listB.append(value)
+
+    print(my_listB)
 
     # write a fucntion to compare headers/comuns/rows
     # maybe think about if a DB is needed here? 
-
-
-    # To save file to a destination
-    # filename = secure_filename(fileA.filename)
-    # destination="/".join([target, filename])
-    # fileA.save(destination)
     
-    # To save file to a destination
-    # filename = secure_filename(fileB.filename)
-    # destination="/".join([target, filename])
-    # fileB.save(destination)
-
     return 'you hit the endpoint. files saved'
   else:
     return 'This method needs to be POST'
